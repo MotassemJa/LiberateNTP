@@ -5,5 +5,5 @@ package com.live.mj92.liberate.domain;
  */
 
 public class Offer {
-    
+
 }

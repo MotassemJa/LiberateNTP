@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -31,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
