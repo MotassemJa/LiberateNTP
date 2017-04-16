@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1025158203097",
+    "firebase_url": "https://liberatentp.firebaseio.com",
+    "project_id": "liberatentp",
+    "storage_bucket": "liberatentp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025158203097:android:7602f9746271926c",
+        "android_client_info": {
+          "package_name": "com.live.mj92.liberate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025158203097-huu12bqjtt7ujutonm6p3nr3kahvonql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.live.mj92.liberate",
+            "certificate_hash": "2b1d675295db2ebf1a2be9759ab1e33079fad97d"
+          }
+        },
+        {
+          "client_id": "1025158203097-lpvaiopj9615msv7tc2leklpqc4egtvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYaYBCTipOisKSpC6XGVxMk1a97DVyaH4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025158203097-lpvaiopj9615msv7tc2leklpqc4egtvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
