@@ -3,6 +3,7 @@ package com.live.mj92.liberate;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private FragmentTransaction mFragmentTransaction = getSupportFragmentManager().beginTransaction();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
