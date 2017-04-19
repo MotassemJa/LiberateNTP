@@ -9,8 +9,10 @@ import com.estimote.coresdk.recognition.packets.Beacon;
 public class Offer {
 
     private String title;
-    private String content;
-    private String username;
+    private String description;
+    private String retail;
+    private String time;
+    private boolean isFav;
     private Beacon beacon;
 
     public Offer() {
@@ -25,12 +27,12 @@ public class Offer {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Beacon getBeacon() {
@@ -42,11 +44,27 @@ public class Offer {
     }
 
 
-    public String getUsername() {
-        return username;
+    public String getRetail() {
+        return retail;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setRetail(String retail) {
+        this.retail = retail;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
     }
 }
