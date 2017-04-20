@@ -14,6 +14,9 @@ import android.widget.ProgressBar;
 import com.live.mj92.liberate.OffersAdapter;
 import com.live.mj92.liberate.R;
 import com.live.mj92.liberate.domain.Offer;
+import com.live.mj92.liberate.presenters.NotificationsPresenter;
+import com.live.mj92.liberate.presenters.impl.NotificationPresenterImpl;
+import com.live.mj92.liberate.views.NotificationsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +25,13 @@ import java.util.List;
  * Created by MJ92 on 4/16/2017.
  */
 
-public class NotificationsFragment extends Fragment {
+public class NotificationsFragment extends Fragment implements NotificationsView {
 
     private ProgressBar mProgressBar;
     private RecyclerView mRvOffers;
     private List<Offer> mOffers = new ArrayList<>();
+
+    private NotificationsPresenter mNotificationsPresenter;
 
 
     public NotificationsFragment() {
@@ -41,6 +46,12 @@ public class NotificationsFragment extends Fragment {
         mProgressBar.setIndeterminate(true);
         mProgressBar.setVisibility(View.VISIBLE);
         mRvOffers = (RecyclerView) v.findViewById(R.id.rv_offers);
+
+        mNotificationsPresenter = new NotificationPresenterImpl(this);
+        mNotificationsPresenter.onFragmentLoaded();
+
+        // TODO: START MONITORING/RANGING?
+
         return v;
     }
 
@@ -53,8 +64,6 @@ public class NotificationsFragment extends Fragment {
         OffersAdapter adapter = new OffersAdapter(mOffers, getActivity());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        StaggeredGridLayoutManager layoutManager =
-//                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvOffers.getContext(), layoutManager.getOrientation());
 
         mRvOffers.setAdapter(adapter);
@@ -76,5 +85,31 @@ public class NotificationsFragment extends Fragment {
 
             mOffers.add(o);
         }
+    }
+
+    @Override
+    public void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showRecyclerView() {
+        mRvOffers.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRecyclerView() {
+        mRvOffers.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        mNotificationsPresenter.onDestroy();
+        super.onDestroy();
     }
 }
