@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_dashboard);
+        navigation.setSelectedItemId(R.id.navigation_notifications);
 
 //        App.getmBeaconManager().setRangingListener(new BeaconManager.BeaconRangingListener() {
 //            @Override
@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onExitedRegion(BeaconRegion beaconRegion) {
 //                if (beaconRegion != null) {
-                    Toast.makeText(getApplicationContext(), "Exit", Toast.LENGTH_SHORT).show();
-                    Log.i("BeaconsAround", "Exit");
+                Toast.makeText(getApplicationContext(), "Exit", Toast.LENGTH_SHORT).show();
+                Log.i("BeaconsAround", "Exit");
 //                }
             }
         });

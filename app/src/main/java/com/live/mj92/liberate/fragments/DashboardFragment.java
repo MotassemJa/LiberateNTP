@@ -24,8 +24,6 @@ import java.util.List;
 
 public class DashboardFragment extends Fragment {
 
-    private RecyclerView mRvOffers;
-    private List<Offer> mOffers = new ArrayList<>();
 
     public DashboardFragment() {
 
@@ -35,7 +33,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        mRvOffers = (RecyclerView) v.findViewById(R.id.rv_offers);
         return v;
     }
 
@@ -43,31 +40,7 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fillOffers();
-
-        OffersAdapter adapter = new OffersAdapter(mOffers, getActivity());
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        StaggeredGridLayoutManager layoutManager =
-//                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvOffers.getContext(), layoutManager.getOrientation());
-
-        mRvOffers.setAdapter(adapter);
-        mRvOffers.setLayoutManager(layoutManager);
-        mRvOffers.addItemDecoration(dividerItemDecoration);
-
     }
 
-    private void fillOffers() {
-        for (int i = 0; i < 10; i++) {
-            Offer o = new Offer();
-            o.setTitle("Title " + i);
-            o.setDescription("Description " + i);
-            o.setRetail("Retail " + i);
-            o.setTime("12:15 PM");
-            o.setFav(i % 2 == 0 ? true : false);
 
-            mOffers.add(o);
-        }
-    }
 }
