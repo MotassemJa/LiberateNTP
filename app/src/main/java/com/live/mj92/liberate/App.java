@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.service.BeaconManager;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.UUID;
 
@@ -15,24 +13,14 @@ import java.util.UUID;
 
 public class App extends Application {
 
-    private static BeaconManager mBeaconManager;
-
-    public static BeaconManager getmBeaconManager() {
-        return mBeaconManager;
-    }
-
-    public static void setmBeaconManager(BeaconManager mBeaconManager) {
-        App.mBeaconManager = mBeaconManager;
-    }
+    public static BeaconManager mBeaconManager;
+    public static final BeaconRegion BEACON_REGION = new BeaconRegion("RR", UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         mBeaconManager = new BeaconManager(getApplicationContext());
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference();
 
     }
 

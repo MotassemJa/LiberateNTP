@@ -2,6 +2,7 @@ package com.live.mj92.liberate.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.service.BeaconManager;
+import com.live.mj92.liberate.App;
 import com.live.mj92.liberate.OffersAdapter;
 import com.live.mj92.liberate.R;
 import com.live.mj92.liberate.domain.Offer;
@@ -29,6 +35,7 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
     private ProgressBar mProgressBar;
     private RecyclerView mRvOffers;
+    private OffersAdapter mOffersAdapter;
     private List<Offer> mOffers = new ArrayList<>();
 
     private NotificationsPresenter mNotificationsPresenter;
@@ -36,6 +43,26 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
     public NotificationsFragment() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SystemRequirementsChecker.checkWithDefaultDialogs(getActivity());
+        App.mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                App.mBeaconManager.startMonitoring(App.BEACON_REGION);
+            }
+        });
+
+    }
+
+    @Override
+    public void onPause() {
+        App.mBeaconManager.disconnect();
+        super.onPause();
     }
 
     @Nullable
@@ -48,9 +75,6 @@ public class NotificationsFragment extends Fragment implements NotificationsView
         mRvOffers = (RecyclerView) v.findViewById(R.id.rv_offers);
 
         mNotificationsPresenter = new NotificationPresenterImpl(this);
-        mNotificationsPresenter.onFragmentLoaded();
-
-        // TODO: START MONITORING/RANGING?
 
         return v;
     }
@@ -59,32 +83,28 @@ public class NotificationsFragment extends Fragment implements NotificationsView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fillOffers();
+        mOffersAdapter = new OffersAdapter(mOffers, getActivity());
 
-        OffersAdapter adapter = new OffersAdapter(mOffers, getActivity());
+        mRvOffers.setAdapter(mOffersAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvOffers.getContext(), layoutManager.getOrientation());
+        mNotificationsPresenter.onFragmentLoaded();
 
-        mRvOffers.setAdapter(adapter);
-        mRvOffers.setLayoutManager(layoutManager);
-        mRvOffers.addItemDecoration(dividerItemDecoration);
+        searchForBeacons();
 
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mRvOffers.setVisibility(View.VISIBLE);
     }
 
-    private void fillOffers() {
-        for (int i = 0; i < 10; i++) {
-            Offer o = new Offer();
-            o.setTitle("Title " + i);
-            o.setDescription("Description " + i);
-            o.setRetail("Retail " + i);
-            o.setTime("12:15 PM");
-            o.setFav(i % 2 == 0);
+    private void searchForBeacons() {
+        App.mBeaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
+            @Override
+            public void onEnteredRegion(BeaconRegion beaconRegion, List<Beacon> list) {
+                mNotificationsPresenter.onBeaconEnter(list);
+            }
 
-            mOffers.add(o);
-        }
+            @Override
+            public void onExitedRegion(BeaconRegion beaconRegion) {
+                mNotificationsPresenter.onBeaconExit(beaconRegion);
+            }
+        });
     }
 
     @Override
@@ -99,12 +119,28 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
     @Override
     public void showRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRvOffers.getContext(), layoutManager.getOrientation());
+        mRvOffers.setLayoutManager(layoutManager);
+        mRvOffers.addItemDecoration(dividerItemDecoration);
         mRvOffers.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideRecyclerView() {
         mRvOffers.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showSnackBar(String msg) {
+        Snackbar.make(getActivity().findViewById(R.id.content), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void notifyRecyclerView(List<Offer> newOffers) {
+        int currentAdapterSize = mOffersAdapter.getItemCount();
+        mOffers.addAll(newOffers);
+        mOffersAdapter.notifyItemRangeInserted(currentAdapterSize, newOffers.size());
     }
 
     @Override
