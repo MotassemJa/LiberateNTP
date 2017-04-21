@@ -2,6 +2,7 @@ package com.live.mj92.liberate.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,6 +38,7 @@ public class NotificationsFragment extends Fragment implements NotificationsView
     private RecyclerView mRvOffers;
     private OffersAdapter mOffersAdapter;
     private List<Offer> mOffers = new ArrayList<>();
+    private CoordinatorLayout mContainer;
 
     private NotificationsPresenter mNotificationsPresenter;
 
@@ -73,6 +75,7 @@ public class NotificationsFragment extends Fragment implements NotificationsView
         mProgressBar.setIndeterminate(true);
         mProgressBar.setVisibility(View.VISIBLE);
         mRvOffers = (RecyclerView) v.findViewById(R.id.rv_offers);
+        mContainer = (CoordinatorLayout) v.findViewById(R.id.container2);
 
         mNotificationsPresenter = new NotificationPresenterImpl(this);
 
@@ -133,7 +136,7 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
     @Override
     public void showSnackBar(String msg) {
-        Snackbar.make(getActivity().findViewById(R.id.content), msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mContainer, msg, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
