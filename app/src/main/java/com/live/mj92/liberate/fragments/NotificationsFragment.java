@@ -18,7 +18,9 @@ import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
 import com.live.mj92.liberate.App;
+import com.live.mj92.liberate.MainActivity;
 import com.live.mj92.liberate.OffersAdapter;
+import com.live.mj92.liberate.OnBeaconFoundCallback;
 import com.live.mj92.liberate.R;
 import com.live.mj92.liberate.domain.Offer;
 import com.live.mj92.liberate.presenters.NotificationsPresenter;
@@ -42,29 +44,20 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
     private NotificationsPresenter mNotificationsPresenter;
 
+    private OnBeaconFoundCallback mBeaconFoundCallback = new OnBeaconFoundCallback() {
+        @Override
+        public void onBeaconFound(List<Beacon> beacon) {
+//            mNotificationsPresenter.onBeaconEnter(beacon);
+        }
+
+        @Override
+        public void onBeaconExit(BeaconRegion region) {
+            mNotificationsPresenter.onBeaconExit(region);
+        }
+    };
 
     public NotificationsFragment() {
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        SystemRequirementsChecker.checkWithDefaultDialogs(getActivity());
-        App.mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                App.mBeaconManager.startMonitoring(App.BEACON_REGION);
-            }
-        });
-
-    }
-
-    @Override
-    public void onPause() {
-        App.mBeaconManager.disconnect();
-        super.onPause();
     }
 
     @Nullable
@@ -92,23 +85,10 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
         mNotificationsPresenter.onFragmentLoaded();
 
-        searchForBeacons();
+        MainActivity.searchForBeacons(mBeaconFoundCallback);
 
     }
 
-    private void searchForBeacons() {
-        App.mBeaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
-            @Override
-            public void onEnteredRegion(BeaconRegion beaconRegion, List<Beacon> list) {
-                mNotificationsPresenter.onBeaconEnter(list);
-            }
-
-            @Override
-            public void onExitedRegion(BeaconRegion beaconRegion) {
-                mNotificationsPresenter.onBeaconExit(beaconRegion);
-            }
-        });
-    }
 
     @Override
     public void showProgress() {

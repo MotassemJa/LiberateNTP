@@ -8,6 +8,7 @@ import com.estimote.coresdk.recognition.packets.Beacon;
 
 public class Offer {
 
+    private String id;
     private String title;
     private String description;
     private String retail;
@@ -15,9 +16,19 @@ public class Offer {
     private boolean isFav;
     private Beacon beacon;
 
+    public Offer(String title, String description, String retail, String time, boolean isFav) {
+        this.title = title;
+        this.description = description;
+        this.retail = retail;
+        this.time = time;
+        this.isFav = isFav;
+    }
+
     public Offer() {
         // Default Constructor
     }
+
+
 
     public String getTitle() {
         return title;
@@ -66,5 +77,13 @@ public class Offer {
 
     public void setFav(boolean fav) {
         isFav = fav;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

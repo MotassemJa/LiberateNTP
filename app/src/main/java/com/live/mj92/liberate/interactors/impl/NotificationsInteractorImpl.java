@@ -24,9 +24,9 @@ public class NotificationsInteractorImpl implements NotificationsInteractor {
      */
     @Override
     public List<Offer> loadData(List<Beacon> beacons, OnDataLoadedListener listener) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.setValue("Hello NTP!");
-        listener.onSuccess();
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mDatabase.setValue(beacons);
+//        listener.onSuccess();
         return null;
     }
 }
