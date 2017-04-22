@@ -12,9 +12,13 @@ import com.live.mj92.liberate.interactors.DashboardInteractor;
 public class DashboardInteractorImpl implements DashboardInteractor {
     @Override
     public void pushOffer(Offer offer, OnOfferPublishedListener listener) {
-        DatabaseReference offersRef = FirebaseDatabase.getInstance().getReference("Offers");
-        offer.setId(offersRef.push().getKey());
-        offersRef.child(offer.getId()).setValue(offer);
-        listener.onSuccess();
+        try {
+            DatabaseReference offersRef = FirebaseDatabase.getInstance().getReference("Offers");
+            offer.setId(offersRef.push().getKey());
+            offersRef.child(offer.getId()).setValue(offer);
+            listener.onSuccess();
+        } catch (Exception e) {
+            listener.onNetworkError();
+        }
     }
 }

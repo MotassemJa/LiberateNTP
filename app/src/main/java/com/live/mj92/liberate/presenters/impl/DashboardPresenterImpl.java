@@ -6,6 +6,9 @@ import com.live.mj92.liberate.interactors.impl.DashboardInteractorImpl;
 import com.live.mj92.liberate.presenters.DashboardPresenter;
 import com.live.mj92.liberate.views.DashboardView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by MJ92 on 4/22/2017.
  */
@@ -39,32 +42,21 @@ public class DashboardPresenterImpl implements DashboardPresenter, DashboardInte
 
     @Override
     public void validateInput(String title, String desc, String major, String minor) {
+        if (title.isEmpty()) {
+            mDashboardView.setTitleError("Cannot be empty");
+            return;
+        }
+        if (desc.isEmpty()) {
+            mDashboardView.setDescriptionError("Cannot be empty");
+            return;
+        }
         mDashboardView.showWaitingDialogue("Publishing offer...");
         Offer o = new Offer();
         o.setTitle(title);
         o.setDescription(desc);
+        o.setTime(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
         o.setRetail(major + " " + minor);
         mDashboardInteractor.pushOffer(o, this);
-    }
-
-    @Override
-    public void onTitleError(String msg) {
-        mDashboardView.setTitleError(msg);
-    }
-
-    @Override
-    public void onDescriptionError(String msg) {
-        mDashboardView.setDescriptionError(msg);
-    }
-
-    @Override
-    public void onMajorError(String msg) {
-
-    }
-
-    @Override
-    public void onMinorError(String msg) {
-
     }
 
     @Override
