@@ -6,6 +6,7 @@ package com.live.mj92.liberate.presenters;
 
 public interface DashboardPresenter {
     void onDestroy();
+    void onSearchingForBeacons();
     void onFragmentLoaded(String major, String minor);
     void validateInput(String title, String desc, String major, String minor);
 }

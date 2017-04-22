@@ -1,8 +1,10 @@
 package com.live.mj92.liberate.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
     public Button mBtnPublishOffer;
 
     private DashboardPresenter mPresenter;
+    private ProgressDialog mProgressDialog;
 
     private OnBeaconFoundCallback mOnBeaconFoundCallback = new OnBeaconFoundCallback() {
         @Override
@@ -49,6 +52,7 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
             if (!beacon.isEmpty()) {
                 String major = beacon.get(0).getMajor() + "";
                 String minor = beacon.get(0).getMinor() + "";
+                Log.i("Beacon", beacon.get(0).getMajor() + " " + beacon.get(0).getMinor());
                 mPresenter.onFragmentLoaded(major, minor);
             } else {
                 // TODO: ADD A MESSAGE THAT BEACONS WERE NOT FOUND
@@ -69,6 +73,7 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ButterKnife.bind(this, v);
+        mProgressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Dark_Dialog);
         return v;
     }
 
@@ -76,8 +81,10 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBtnPublishOffer.setOnClickListener(this);
-        MainActivity.searchForBeacons(mOnBeaconFoundCallback);
+
         mPresenter = new DashboardPresenterImpl(this);
+        mPresenter.onSearchingForBeacons();
+        MainActivity.searchForBeacons(mOnBeaconFoundCallback);
     }
 
 
@@ -97,11 +104,29 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
     }
 
     @Override
+    public void showWaitingDialogue(String msg) {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(msg);
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void hideWaitingDialogue() {
+        mProgressDialog.dismiss();
+    }
+
+    @Override
     public void setMajorAndMinor(String major, String minor) {
         mEtMajor.setText(major);
         mEtMinor.setText(minor);
     }
 
+
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
+    }
 
     @Override
     public void onClick(View v) {

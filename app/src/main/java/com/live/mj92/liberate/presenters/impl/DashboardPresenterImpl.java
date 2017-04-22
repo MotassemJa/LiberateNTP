@@ -25,8 +25,14 @@ public class DashboardPresenterImpl implements DashboardPresenter {
     }
 
     @Override
+    public void onSearchingForBeacons() {
+        mDashboardView.showWaitingDialogue("Searching for beacons...");
+    }
+
+    @Override
     public void onFragmentLoaded(String major, String minor) {
         mDashboardView.setMajorAndMinor(major, minor);
+        mDashboardView.hideWaitingDialogue();
     }
 
 

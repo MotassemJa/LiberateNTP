@@ -12,5 +12,7 @@ public interface DashboardView {
     void setTitleError(String errMsg);
     void setDescriptionError(String errMsg);
     void showDialogue(boolean isSuccessful);
+    void showWaitingDialogue(String msg);
+    void hideWaitingDialogue();
     void setMajorAndMinor(String major, String minor);
 }
