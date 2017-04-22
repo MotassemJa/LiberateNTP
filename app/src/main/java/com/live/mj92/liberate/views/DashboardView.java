@@ -15,4 +15,5 @@ public interface DashboardView {
     void showWaitingDialogue(String msg);
     void hideWaitingDialogue();
     void setMajorAndMinor(String major, String minor);
+    void showSnackBar(String msg);
 }

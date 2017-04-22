@@ -29,38 +29,22 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-
-
-        Offer offer1 = new Offer("So3ad", "desc", "sdf", "time", true);
-        Offer offer2 = new Offer("So3ad2", "desc", "sdf", "time", true);
-        Offer offer3 = new Offer("So3ad", "desc", "sdf", "time", true);
-        Offer offer4 = new Offer("So3ad", "desc", "sdf", "time", true);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference offersRef = database.getReference("Offers");
-
-        String key = offersRef.push().getKey();
-        offer1.setId(key);
-
-        offersRef.child(key).setValue(offer2);
-
-
         // Read from the database
-        offersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Offer offer = dataSnapshot.getValue(Offer.class);
-                Log.d(TAG, "Value is: " + offer.getId());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
+//        offersRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                Offer offer = dataSnapshot.getValue(Offer.class);
+//                Log.d(TAG, "Value is: " + offer.getId());
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.w(TAG, "Failed to read value.", error.toException());
+//            }
+//        });
 
     }
 

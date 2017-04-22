@@ -3,6 +3,8 @@ package com.live.mj92.liberate.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +44,8 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
     public EditText mEtMinor;
     @BindView(R.id.btn_add_offer)
     public Button mBtnPublishOffer;
+    @BindView(R.id.container3)
+    public CoordinatorLayout mContainer;
 
     private DashboardPresenter mPresenter;
     private ProgressDialog mProgressDialog;
@@ -119,6 +123,11 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
     public void setMajorAndMinor(String major, String minor) {
         mEtMajor.setText(major);
         mEtMinor.setText(minor);
+    }
+
+    @Override
+    public void showSnackBar(String msg) {
+        Snackbar.make(mContainer, msg, Snackbar.LENGTH_SHORT).show();
     }
 
 

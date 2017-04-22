@@ -7,17 +7,19 @@ import com.live.mj92.liberate.domain.Offer;
  */
 
 public interface DashboardInteractor {
-    interface onOfferPublishedListener {
-        void onTitleError();
+    interface OnOfferPublishedListener {
+        void onTitleError(String msg);
 
-        void onDescriptionError();
+        void onDescriptionError(String msg);
 
-        void onMajorError();
+        void onMajorError(String msg);
 
-        void onMinorError();
+        void onMinorError(String msg);
+
+        void onNetworkError();
 
         void onSuccess();
     }
 
-    void pushOffer(Offer offer);
+    void pushOffer(Offer offer, OnOfferPublishedListener listener);
 }
