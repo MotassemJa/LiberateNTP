@@ -1,11 +1,15 @@
 package com.live.mj92.liberate.interactors.impl;
 
 import com.estimote.coresdk.recognition.packets.Beacon;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.live.mj92.liberate.domain.Offer;
 import com.live.mj92.liberate.interactors.NotificationsInteractor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +18,6 @@ import java.util.List;
 
 public class NotificationsInteractorImpl implements NotificationsInteractor {
 
-    private DatabaseReference mDatabase;
-
     /**
      * Load the offers associated with beacon
      *
@@ -23,10 +25,24 @@ public class NotificationsInteractorImpl implements NotificationsInteractor {
      * @param listener
      */
     @Override
-    public List<Offer> loadData(List<Beacon> beacons, OnDataLoadedListener listener) {
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.setValue(beacons);
-//        listener.onSuccess();
-        return null;
+    public void loadData(List<Beacon> beacons, final OnDataLoadedListener listener) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Offers");
+        final List<Offer> allOffers = new ArrayList<>();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Offer o = d.getValue(Offer.class);
+                    allOffers.add(o);
+                }
+                listener.onSuccess(allOffers);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

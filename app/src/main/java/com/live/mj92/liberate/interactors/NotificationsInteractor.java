@@ -15,8 +15,8 @@ public interface NotificationsInteractor {
 
         void onDataNotFound();
 
-        void onSuccess();
+        void onSuccess(List<Offer> offers);
     }
 
-    List<Offer> loadData(List<Beacon> beacons, OnDataLoadedListener listener);
+    void loadData(List<Beacon> beacons, OnDataLoadedListener listener);
 }

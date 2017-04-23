@@ -47,7 +47,7 @@ public class NotificationsFragment extends Fragment implements NotificationsView
     private OnBeaconFoundCallback mBeaconFoundCallback = new OnBeaconFoundCallback() {
         @Override
         public void onBeaconFound(List<Beacon> beacon) {
-//            mNotificationsPresenter.onBeaconEnter(beacon);
+            mNotificationsPresenter.onBeaconEnter(beacon);
         }
 
         @Override

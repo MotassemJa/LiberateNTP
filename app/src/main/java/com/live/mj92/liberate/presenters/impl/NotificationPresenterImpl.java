@@ -18,7 +18,6 @@ public class NotificationPresenterImpl implements NotificationsPresenter, Notifi
 
     private NotificationsView mNotificationsView;
     private NotificationsInteractor mNotificationsInteractor;
-    private List<Offer> mOffers;
 
     public NotificationPresenterImpl(NotificationsView view) {
         this.mNotificationsView = view;
@@ -36,11 +35,11 @@ public class NotificationPresenterImpl implements NotificationsPresenter, Notifi
     }
 
     @Override
-    public void onSuccess() {
-        if (mOffers != null) {
+    public void onSuccess(List<Offer> offers) {
+        if (offers != null) {
             mNotificationsView.hideProgress();
             mNotificationsView.showRecyclerView();
-            mNotificationsView.notifyRecyclerView(mOffers);
+            mNotificationsView.notifyRecyclerView(offers);
         }
     }
 
@@ -60,7 +59,7 @@ public class NotificationPresenterImpl implements NotificationsPresenter, Notifi
     @Override
     public void onBeaconEnter(List<Beacon> beacons) {
         mNotificationsView.showSnackBar(beacons.size() + " Found");
-        mOffers = mNotificationsInteractor.loadData(beacons, this);
+        mNotificationsInteractor.loadData(beacons, this);
     }
 
     @Override
