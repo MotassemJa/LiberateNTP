@@ -2,6 +2,10 @@ package com.live.mj92.liberate.domain;
 
 import com.estimote.coresdk.recognition.packets.Beacon;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by MJ92 on 4/16/2017.
  */
@@ -11,23 +15,22 @@ public class Offer {
     private String id;
     private String title;
     private String description;
-    private String retail;
     private String time;
     private boolean isFav;
-    private Beacon beacon;
 
-    public Offer(String title, String description, String retail, String time, boolean isFav) {
+    private Retail retail;
+
+    public Offer(String title, String description, Retail retail, boolean isFav) {
         this.title = title;
         this.description = description;
         this.retail = retail;
-        this.time = time;
+        this.time = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(new Date(System.currentTimeMillis()));
         this.isFav = isFav;
     }
 
     public Offer() {
         // Default Constructor
     }
-
 
 
     public String getTitle() {
@@ -46,20 +49,11 @@ public class Offer {
         this.description = description;
     }
 
-    public Beacon getBeacon() {
-        return beacon;
-    }
-
-    public void setBeacon(Beacon beacon) {
-        this.beacon = beacon;
-    }
-
-
-    public String getRetail() {
+    public Retail getRetail() {
         return retail;
     }
 
-    public void setRetail(String retail) {
+    public void setRetail(Retail retail) {
         this.retail = retail;
     }
 

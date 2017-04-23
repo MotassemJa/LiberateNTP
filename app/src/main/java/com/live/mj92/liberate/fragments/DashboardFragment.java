@@ -18,6 +18,7 @@ import com.estimote.coresdk.recognition.packets.Beacon;
 import com.live.mj92.liberate.MainActivity;
 import com.live.mj92.liberate.OnBeaconFoundCallback;
 import com.live.mj92.liberate.R;
+import com.live.mj92.liberate.domain.Retail;
 import com.live.mj92.liberate.presenters.DashboardPresenter;
 import com.live.mj92.liberate.presenters.impl.DashboardPresenterImpl;
 import com.live.mj92.liberate.views.DashboardView;
@@ -54,10 +55,12 @@ public class DashboardFragment extends Fragment implements DashboardView, View.O
         @Override
         public void onBeaconFound(List<Beacon> beacon) {
             if (!beacon.isEmpty()) {
+                Retail r = new Retail();
                 String major = beacon.get(0).getMajor() + "";
                 String minor = beacon.get(0).getMinor() + "";
-                Log.i("Beacon", beacon.get(0).getMajor() + " " + beacon.get(0).getMinor());
-                mPresenter.onFragmentLoaded(major, minor);
+                r.setMajor(major);
+                r.setMinor(minor);
+                mPresenter.onFragmentLoaded(r.getMajor(), r.getMinor());
             } else {
                 // TODO: ADD A MESSAGE THAT BEACONS WERE NOT FOUND
             }

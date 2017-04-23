@@ -1,6 +1,7 @@
 package com.live.mj92.liberate.presenters.impl;
 
 import com.live.mj92.liberate.domain.Offer;
+import com.live.mj92.liberate.domain.Retail;
 import com.live.mj92.liberate.interactors.DashboardInteractor;
 import com.live.mj92.liberate.interactors.impl.DashboardInteractorImpl;
 import com.live.mj92.liberate.presenters.DashboardPresenter;
@@ -8,6 +9,7 @@ import com.live.mj92.liberate.views.DashboardView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by MJ92 on 4/22/2017.
@@ -51,11 +53,8 @@ public class DashboardPresenterImpl implements DashboardPresenter, DashboardInte
             return;
         }
         mDashboardView.showWaitingDialogue("Publishing offer...");
-        Offer o = new Offer();
-        o.setTitle(title);
-        o.setDescription(desc);
-        o.setTime(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
-        o.setRetail(major + " " + minor);
+        Retail r = new Retail(major, minor);
+        Offer o = new Offer(title, desc, r, false);
         mDashboardInteractor.pushOffer(o, this);
     }
 

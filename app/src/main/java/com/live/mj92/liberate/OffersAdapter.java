@@ -67,7 +67,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.OffersView
         ImageView imgFav = holder.mImgFav;
 
         tvDescription.setText(offer.getDescription());
-        tvRetail.setText(offer.getRetail());
+        tvRetail.setText(offer.getRetail().getUsername());
         tvTime.setText(offer.getTime());
         tvTitle.setText(offer.getTitle());
 
