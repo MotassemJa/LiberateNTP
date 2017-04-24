@@ -20,23 +20,6 @@ import java.util.List;
 
 public class NotificationsInteractorImpl implements NotificationsInteractor {
 
-    private ValueEventListener beaconsRef = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            if (dataSnapshot.getChildrenCount() == 0) {
-
-            }
-            int i = 0;
-            for (DataSnapshot d : dataSnapshot.getChildren()) {
-
-            }
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
 
     /**
      * Load the offers associated with beacon
@@ -63,13 +46,10 @@ public class NotificationsInteractorImpl implements NotificationsInteractor {
                 int i = 0;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Retail r = d.getValue(Retail.class);
-                    String maj = r.getMajor();
-                    String min = r.getMinor();
                     final List<String> oIDs = r.getOffersID();
                     if (oIDs.isEmpty()) {
                         listener.onDataNotFound();
-                    }
-                    else {
+                    } else {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Offers");
                         ref.addValueEventListener(new ValueEventListener() {
                             @Override

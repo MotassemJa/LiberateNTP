@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     public static BeaconManager mBeaconManager;
     public static final BeaconRegion BEACON_REGION = new BeaconRegion("RR", UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
 
+    public interface BeaconFunctionality {
+        void onConnect();
+        void onDisconnect();
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -66,10 +70,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void searchForBeacons(final OnBeaconFoundCallback callback) {
+        mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                mBeaconManager.startMonitoring(BEACON_REGION);
+            }
+        });
+
         mBeaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
             @Override
             public void onEnteredRegion(BeaconRegion beaconRegion, List<Beacon> list) {
                 callback.onBeaconFound(list);
+
+                mBeaconManager.disconnect();
             }
 
             @Override
@@ -84,18 +97,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
-        mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                mBeaconManager.startMonitoring(BEACON_REGION);
-            }
-        });
 
     }
 
     @Override
     public void onPause() {
-        mBeaconManager.disconnect();
         super.onPause();
     }
 }
