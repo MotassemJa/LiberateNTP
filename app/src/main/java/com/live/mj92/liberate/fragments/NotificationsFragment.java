@@ -85,13 +85,12 @@ public class NotificationsFragment extends Fragment implements NotificationsView
 
         mNotificationsPresenter.onFragmentLoaded();
 
-        MainActivity.searchForBeacons(mBeaconFoundCallback);
-
     }
 
 
     @Override
     public void showProgress() {
+        MainActivity.searchForBeacons(mBeaconFoundCallback);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 

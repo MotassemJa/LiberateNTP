@@ -2,6 +2,7 @@ package com.live.mj92.liberate.presenters.impl;
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
+import com.live.mj92.liberate.ErrorType;
 import com.live.mj92.liberate.domain.Offer;
 import com.live.mj92.liberate.interactors.NotificationsInteractor;
 import com.live.mj92.liberate.interactors.impl.NotificationsInteractorImpl;
@@ -26,12 +27,18 @@ public class NotificationPresenterImpl implements NotificationsPresenter, Notifi
 
     @Override
     public void onNetworkError() {
-
+        mNotificationsView.showSnackBar("Network error");
     }
 
     @Override
-    public void onDataNotFound() {
-
+    public void onDataNotFound(ErrorType errorType) {
+        switch (errorType) {
+            case ERR_NO_BEACONS_FOUND: // Continue the search until beacon is found
+            case ERR_NO_ASSOCIATED_OFFERS:
+            case ERR_NO_ASSOCIATED_BEACON:
+            case ERR_NO_OFFERS_REFERENCE:
+                onFragmentLoaded();
+        }
     }
 
     @Override
